@@ -1,3 +1,3 @@
 export type Operator = '&' | '|';
 
-export type PermissionObject<T> = Record<T, string>;
+export type PermissionObject<T extends string> = Record<T, string>;

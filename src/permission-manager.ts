@@ -1,5 +1,12 @@
 import { Operator, PermissionObject } from './types';
 
+import {
+  createPermissionObject,
+  addPermissions,
+  removePermissions,
+  verifyPermissions,
+} from './permission.helper';
+
 export class Permissions<T extends string> {
   private permissionObject: PermissionObject<T>;
 
@@ -20,12 +27,7 @@ export class Permissions<T extends string> {
    * @param permissionNames @type string(name)[]
    */
   private createPermissionObject = (permissionNames: T[]) => {
-    permissionNames.forEach((name, index) => {
-      this.permissionObject = {
-        ...this.permissionObject,
-        [name]: `0x${(2 ** index).toString(16)}`,
-      };
-    });
+    this.permissionObject = createPermissionObject(permissionNames);
   };
 
   /**
@@ -34,40 +36,15 @@ export class Permissions<T extends string> {
    * @param operator @type string = '|' default
    * @returns boolean
    */
-  verifyPermissions = (expectedPermissions: T[], operator: Operator = '|'): boolean => {
-    let verified: boolean = operator === '&';
-
-    expectedPermissions.forEach((permission) => {
-      switch (operator) {
-        case '|':
-          if ((parseInt(this.permissionNumber, 16) & parseInt(this.permissionObject[permission], 16)) !== 0) {
-            verified = true;
-          }
-          break;
-
-        case '&':
-          if ((parseInt(this.permissionNumber, 16) & parseInt(this.permissionObject[permission], 16)) === 0) {
-            verified = false;
-          }
-          break;
-
-        default:
-      }
-    });
-
-    return verified;
-  };
+  verifyPermissions = (expectedPermissions: T[], operator: Operator = '|'): boolean =>
+    verifyPermissions(this.permissionNumber, this.permissionObject, expectedPermissions, operator);
 
   /**
    * It gets permission names to add
    * @param newPermissions @type string(name)[]
    */
   addPermissions = (newPermissions: T[]) => {
-    newPermissions.forEach((permission) => {
-      this.permissionNumber = `0x${(
-        parseInt(this.permissionNumber, 16) | parseInt(this.permissionObject[permission], 16)
-      ).toString(16)}`;
-    });
+    this.permissionNumber = addPermissions(this.permissionNumber, this.permissionObject, newPermissions);
   };
 
   /**
@@ -75,13 +52,11 @@ export class Permissions<T extends string> {
    * @param removedPermissions @type string(name)[]
    */
   removePermissions = (removedPermissions: T[]) => {
-    removedPermissions.forEach((permission) => {
-      if (this.verifyPermissions([permission])) {
-        this.permissionNumber = `0x${(
-          parseInt(this.permissionNumber, 16) ^ parseInt(this.permissionObject[permission], 16)
-        ).toString(16)}`;
-      }
-    });
+    this.permissionNumber = removePermissions(
+      this.permissionNumber,
+      this.permissionObject,
+      removedPermissions,
+    );
   };
 
   /**

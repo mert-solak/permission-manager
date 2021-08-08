@@ -29,7 +29,7 @@ export class Permissions<T extends string> {
   };
 
   /**
-   * It gets expected permission names and operator to verification
+   * It gets expected permission names and operator for verification
    * @param expectedPermissions @type string(name)[]
    * @param operator @type string = '|' default
    * @returns boolean

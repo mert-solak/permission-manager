@@ -1,6 +1,6 @@
 ## Permission Manager
 
-Developed to permission management for both frontend and backend
+Developed for permission management using hexadecimal numbers with typescript support
 
 ![npm](https://img.shields.io/npm/v/@mertsolak/permission-manager)
 ![license](https://img.shields.io/npm/l/@mertsolak/permission-manager)
@@ -12,11 +12,20 @@ Developed to permission management for both frontend and backend
 Use node package manager to install @mertsolak/permission-manager.
 
 ```bash
-npm i @mertsolak/web-worker-helper
+npm i @mertsolak/permission-manager
 ```
 
 ## Basic Usage
 
 ```typescript
+import { Permissions } from '@mertsolak/permission-manager';
 
+const permissionNames = ['login', 'logout', 'profile', 'settings'];
+const initialPermissionNumber = '0x0'; // this is optional, default is 0x0;
+
+const permissions = new Permissions(permissionNames, initialPermissionNumber);
+
+permission.addPermissions(['login', 'logout']); // adds login and logout as permissions
+permission.removePermissions(['login']); // removes login from the permissions if it exists
+permission.verifyPermissions(['login', 'logout'], '&'); // verifies permissions with '&' operator. default operator is '|'.
 ```

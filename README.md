@@ -18,9 +18,9 @@ npm i @mertsolak/permission-manager
 ## Basic Usage
 
 ```typescript
-import { Permissions } from '@mertsolak/permission-manager';
+import { Permissions, createPermissionNames } from '@mertsolak/permission-manager';
 
-const permissionNames = ['login', 'logout', 'profile', 'settings'];
+const permissionNames = createPermissionNames('login', 'logout', 'profile', 'settings');
 const initialPermissionNumber = '0x0'; // this is optional, default is 0x0;
 
 const permissions = new Permissions(permissionNames, initialPermissionNumber);

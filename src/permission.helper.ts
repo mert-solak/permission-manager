@@ -1,6 +1,13 @@
 import { Operator, PermissionObject } from './types';
 
 /**
+ * creates permissionNames array with string literal type
+ * @param permissions @type T[]
+ * @returns T[]
+ */
+export const createPermissionNames = <T extends string>(...permissions: T[]) => permissions;
+
+/**
  * It creates permission object&enum
  * @param permissionNames @type string(name)[]
  */

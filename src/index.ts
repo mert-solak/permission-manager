@@ -4,6 +4,14 @@ import {
   removePermissions,
   verifyPermissions,
   createPermissionObject,
+  createPermissionNames,
 } from './permission.helper';
 
-export { Permissions, addPermissions, removePermissions, verifyPermissions, createPermissionObject };
+export {
+  Permissions,
+  addPermissions,
+  removePermissions,
+  verifyPermissions,
+  createPermissionObject,
+  createPermissionNames,
+};
